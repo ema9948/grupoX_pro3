@@ -32,10 +32,10 @@ const initDB = async () => {
     console.log(
       "Usuarios de prueba cargados. Password = parte antes del @ del email",
     );
-    console.log("Admin: admin@clinica.com / admin123");
   } else {
     console.log("Base de datos ya existe, continuando...");
   }
+  console.log("Admin: | email:admin@clinica.com | password: admin123");
 
   await connection.end();
 };
