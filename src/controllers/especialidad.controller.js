@@ -102,3 +102,6 @@ const EspecialidadController = {
 };
 
 export default EspecialidadController;
+
+
+

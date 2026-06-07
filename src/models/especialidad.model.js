@@ -1,13 +1,14 @@
 import pool from "../config/db.js";
 
 const EspecialidadModel = {
-  // Browse - listar todas las especialidades
+  // Browse - listar todas las especialidades activas
   findAll: async () => {
     const [rows] = await pool.query(
       "SELECT * FROM especialidades WHERE activo = 1",
     );
     return rows;
   },
+
   // Read - obtener una especialidad por ID
   findById: async (id) => {
     const [rows] = await pool.query(
@@ -64,3 +65,5 @@ const EspecialidadModel = {
 };
 
 export default EspecialidadModel;
+
+

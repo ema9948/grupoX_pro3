@@ -23,7 +23,7 @@ const ObraSocialController = {
 
           return res.status(200).json({
             message: "Obra social reactivada correctamente",
-            id: existente.id_obra_social, // ← CORREGIDO
+            id: existente.id_obra_social,
           });
         }
 
@@ -55,7 +55,6 @@ const ObraSocialController = {
       res.status(500).json({ message: "Error interno del servidor" });
     }
   },
-
   // GET /api/obras-sociales/:id
   getById: async (req, res) => {
     try {
@@ -110,3 +109,6 @@ const ObraSocialController = {
 };
 
 export default ObraSocialController;
+
+
+
