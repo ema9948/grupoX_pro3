@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import pool from '../config/db.js';
 import UsuarioModel from '../models/usuario.model.js';
 
 const AuthController = {
@@ -38,7 +39,32 @@ const AuthController = {
             console.error(error);
             res.status(500).json({ message: 'Error interno del servidor' });
         }
+    },
+    // PUT /api/auth/foto
+    subirFoto: async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No se recibió ningún archivo' });
+        }
+
+        const foto_path = req.file.filename;
+        const id_usuario = req.usuario.id;
+
+        await pool.query(
+            'UPDATE usuarios SET foto_path = ? WHERE id_usuario = ?',
+            [foto_path, id_usuario]
+        );
+
+        res.status(200).json({
+            message: 'Foto actualizada correctamente',
+            foto_path
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error interno del servidor' });
     }
+}
 
 };
 
