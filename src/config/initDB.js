@@ -28,6 +28,25 @@ const initDB = async () => {
       "utf8",
     );
     await connection.query(sql);
+
+    // Crear Stored Procedure por separado
+    // No puede ir en el init.sql porque DELIMITER no funciona desde Node
+    await connection.query(`
+            CREATE PROCEDURE sp_estadisticas_atenciones()
+            BEGIN
+                SELECT
+                    COUNT(*) as total_turnos,
+                    SUM(atendido = 1) as turnos_atendidos,
+                    SUM(atendido = 0) as turnos_pendientes,
+                    COUNT(DISTINCT id_paciente) as total_pacientes_unicos,
+                    COUNT(DISTINCT id_medico) as total_medicos_que_atendieron,
+                    AVG(valor_total) as promedio_valor_turno,
+                    SUM(valor_total) as ingreso_total
+                FROM turnos_reservas
+                WHERE activo = 1;
+            END
+        `);
+
     console.log("Base de datos creada correctamente");
     console.log(
       "Usuarios de prueba cargados. Password = parte antes del @ del email",
@@ -36,7 +55,6 @@ const initDB = async () => {
     console.log("Base de datos ya existe, continuando...");
   }
   console.log("Admin: | email:admin@clinica.com | password: admin123");
-
   await connection.end();
 };
 
