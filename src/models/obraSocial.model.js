@@ -73,3 +73,6 @@ const ObraSocialModel = {
 };
 
 export default ObraSocialModel;
+
+
+

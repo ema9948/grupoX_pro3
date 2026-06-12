@@ -14,3 +14,5 @@ router.put('/:id', verifyToken, authorizeRoles(3), obraSocialValidator, validate
 router.delete('/:id', verifyToken, authorizeRoles(3), ObraSocialController.remove);
 
 export default router;
+
+
