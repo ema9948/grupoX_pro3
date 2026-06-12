@@ -15,7 +15,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/especialidades:
+ * /api/v1/especialidades:
  *   get:
  *     summary: Listar todas las especialidades
  *     tags: [Especialidades]
@@ -31,7 +31,7 @@ router.get('/', verifyToken, authorizeRoles(2, 3), EspecialidadController.getAll
 
 /**
  * @swagger
- * /api/especialidades/{id}:
+ * /api/v1/especialidades/{id}:
  *   get:
  *     summary: Obtener una especialidad por ID
  *     tags: [Especialidades]
@@ -53,7 +53,7 @@ router.get('/:id', verifyToken, authorizeRoles(2, 3), EspecialidadController.get
 
 /**
  * @swagger
- * /api/especialidades:
+ * /api/v1/especialidades:
  *   post:
  *     summary: Crear nueva especialidad
  *     tags: [Especialidades]
@@ -83,7 +83,7 @@ router.post('/', verifyToken, authorizeRoles(3), especialidadValidator, validate
 
 /**
  * @swagger
- * /api/especialidades/{id}:
+ * /api/v1/especialidades/{id}:
  *   put:
  *     summary: Editar especialidad
  *     tags: [Especialidades]
@@ -115,7 +115,7 @@ router.put('/:id', verifyToken, authorizeRoles(3), especialidadValidator, valida
 
 /**
  * @swagger
- * /api/especialidades/{id}:
+ * /api/v1/especialidades/{id}:
  *   delete:
  *     summary: Eliminar especialidad (soft delete)
  *     tags: [Especialidades]
@@ -136,6 +136,3 @@ router.put('/:id', verifyToken, authorizeRoles(3), especialidadValidator, valida
 router.delete('/:id', verifyToken, authorizeRoles(3), EspecialidadController.remove);
 
 export default router;
-
-
-

@@ -1,8 +1,11 @@
+-- --------------------------------------------------------
+-- Base de datos
+-- --------------------------------------------------------
 CREATE DATABASE IF NOT EXISTS prog3_turnos;
 USE prog3_turnos;
 
 -- --------------------------------------------------------
--- TABLAS
+-- Tablas
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `usuarios` (
@@ -96,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `turnos_reservas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
--- VISTAS
+-- Vistas
 -- --------------------------------------------------------
 
 CREATE OR REPLACE VIEW `v_medicos` AS
@@ -134,7 +137,7 @@ JOIN obras_sociales os ON p.id_obra_social = os.id_obra_social
 WHERE u.activo = 1;
 
 -- --------------------------------------------------------
--- DATOS DE PRUEBA
+-- Datos de prueba
 -- --------------------------------------------------------
 
 INSERT INTO `especialidades` (`id_especialidad`, `nombre`, `activo`) VALUES
@@ -145,14 +148,14 @@ INSERT INTO `especialidades` (`id_especialidad`, `nombre`, `activo`) VALUES
 (9, 'NEUROLOGÍA', 1);
 
 INSERT INTO `obras_sociales` (`id_obra_social`, `nombre`, `descripcion`, `porcentaje_descuento`, `es_particular`, `activo`) VALUES
-(1, 'Jerárquicos', 'jer', 10.00, 0, 1),
-(2, 'OSUNER', 'osu', 10.00, 0, 1),
-(3, 'OSECAC', 'ose', 11.00, 0, 1),
-(4, 'OSUNER 3', 'OSU', 13.00, 0, 1);
+(1, 'Jerárquicos', 'jer', 0.10, 0, 1),
+(2, 'OSUNER', 'osu', 0.10, 0, 1),
+(3, 'OSECAC', 'ose', 0.11, 0, 1),
+(4, 'OSUNER 3', 'OSU', 0.13, 0, 1),
+(5, 'PARTICULAR', 'Sin cobertura', 0.00, 1, 1);
 
--- Contraseñas hasheadas con SHA2-256 
--- La contraseña de cada usuario es la parte antes del @ de su email
--- Ej: lopmar@correo.com → password: lopmar
+-- Contraseñas hasheadas con SHA2-256.
+-- La contraseña de cada usuario es la parte antes del '@' de su email.
 INSERT INTO `usuarios` (`id_usuario`, `documento`, `apellido`, `nombres`, `email`, `contrasenia`, `foto_path`, `rol`, `activo`) VALUES
 (1, '31000111', 'Lopez', 'Marcelo', 'lopmar@correo.com', SHA2('lopmar', 256), '', 1, 1),
 (2, '31000112', 'Diaz', 'Juan', 'diajua@correo.com', SHA2('diajua', 256), '', 1, 1),
@@ -185,7 +188,7 @@ INSERT INTO `medicos_obras_sociales` (`id_medico_obra_social`, `id_medico`, `id_
 INSERT INTO `turnos_reservas` (`id_turno_reserva`, `id_medico`, `id_paciente`, `id_obra_social`, `fecha_hora`, `valor_total`, `atendido`, `activo`) VALUES
 (1, 1, 1, 1, '2026-04-01 17:00:00', 4500.00, 0, 1),
 (2, 3, 2, 2, '2026-04-01 18:00:00', 9000.00, 0, 1),
-(4, 4, 3, 3, '2026-04-01 19:00:00', 13500.00, 0, 1),
+(4, 4, 3, 3, '2026-04-01 19:00:00', 13350.00, 0, 1),
 (5, 3, 2, 2, '2026-04-14 18:00:00', 9000.00, 0, 1),
 (6, 3, 2, 2, '2026-04-21 18:00:00', 9000.00, 0, 1),
-(7, 4, 3, 3, '2026-05-07 16:00:00', 133500.00, 0, 1);
+(7, 4, 3, 3, '2026-05-07 16:00:00', 13050.00, 0, 1);

@@ -8,14 +8,14 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/');
     },
 
-    // Usamos el id del usuario como nombre del archivo
-    // Si ya existe una foto anterior la sobreescribe automáticamente
+    //*Usamos el id del usuario como nombre del archivo
+    //*Si ya existe una foto anterior la sobreescribe automáticamente
     filename: (req, file, cb) => {
         const ext = path.extname(file.originalname);
         const nombreArchivo = `foto_usuario_${req.usuario.id}${ext}`;
 
-        // Si ya existe una foto anterior con diferente extensión la borramos
-        // Por ejemplo si antes era .png y ahora sube .jpg
+        //*Si ya existe una foto anterior con diferente extensión la borramos
+        //*Por ejemplo si antes era .png y ahora sube .jpg
         const extensiones = ['.jpg', '.jpeg', '.png', '.webp'];
         extensiones.forEach(e => {
             const rutaVieja = `uploads/foto_usuario_${req.usuario.id}${e}`;

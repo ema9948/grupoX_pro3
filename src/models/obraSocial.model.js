@@ -1,7 +1,7 @@
 import pool from "../config/db.js";
 
 const ObraSocialModel = {
-  // Browse - listar todas
+  //*Browse - listar todas
   findAll: async () => {
     const [rows] = await pool.query(
       "SELECT * FROM obras_sociales WHERE activo = 1",
@@ -9,7 +9,7 @@ const ObraSocialModel = {
     return rows;
   },
 
-  // Read - obtener una por ID
+  //*Read - obtener una por ID
   findById: async (id) => {
     const [rows] = await pool.query(
       "SELECT * FROM obras_sociales WHERE id_obra_social = ? AND activo = 1",
@@ -18,7 +18,7 @@ const ObraSocialModel = {
     return rows[0];
   },
 
-  // Add - crear nueva
+  //*Add - crear nueva
   create: async (nombre, descripcion, porcentaje_descuento, es_particular) => {
     const [result] = await pool.query(
       `INSERT INTO obras_sociales 
@@ -29,7 +29,7 @@ const ObraSocialModel = {
     return result.insertId;
   },
 
-  // Edit - editar
+  //*Edit - editar
   update: async (
     id,
     nombre,
@@ -45,7 +45,7 @@ const ObraSocialModel = {
     );
     return result.affectedRows;
   },
-  // Buscar por nombre (incluye activos e inactivos)
+  //*Buscar por nombre (incluye activos e inactivos)
   findByNombre: async (nombre) => {
     const [rows] = await pool.query(
       "SELECT * FROM obras_sociales WHERE nombre = ? LIMIT 1",
@@ -54,7 +54,7 @@ const ObraSocialModel = {
     return rows[0];
   },
 
-  // Reactivar (o cambiar estado)
+  //*Reactivar (o cambiar estado)
   updateActive: async (id, activo) => {
     const [result] = await pool.query(
       "UPDATE obras_sociales SET activo = ? WHERE id_obra_social = ?",
@@ -62,7 +62,7 @@ const ObraSocialModel = {
     );
     return result.affectedRows;
   },
-  // Delete - soft delete
+  //*Delete - soft delete
   softDelete: async (id) => {
     const [result] = await pool.query(
       "UPDATE obras_sociales SET activo = 0 WHERE id_obra_social = ? AND activo = 1",
@@ -73,6 +73,3 @@ const ObraSocialModel = {
 };
 
 export default ObraSocialModel;
-
-
-

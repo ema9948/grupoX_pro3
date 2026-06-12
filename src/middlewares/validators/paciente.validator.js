@@ -1,4 +1,4 @@
-// src/middlewares/validators/paciente.validator.js
+//*src/middlewares/validators/paciente.validator.js
 import { body } from 'express-validator';
 
 const pacienteValidator = [
@@ -14,4 +14,3 @@ const pacienteValidator = [
 ];
 
 export { pacienteValidator };
-

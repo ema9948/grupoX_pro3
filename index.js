@@ -2,9 +2,9 @@ import 'dotenv/config';
 import app from './app.js';
 import initDB from './src/config/initDB.js';
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3600;
 
-// Primero inicializa la DB, después levanta el servidor
+//*Primero inicializa la DB, después levanta el servidor
 initDB()
     .then(() => {
         app.listen(PORT, () => {

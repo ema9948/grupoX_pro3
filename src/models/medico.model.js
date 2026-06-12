@@ -1,8 +1,8 @@
-// src/models/medico.model.js
+//*src/models/medico.model.js
 import pool from "../config/db.js";
 
 const MedicoModel = {
-  // Listar todos los médicos
+  //*Listar todos los médicos
   findAll: async (id_especialidad = null) => {
     let query = `
         SELECT m.*, u.apellido, u.nombres, u.email, u.foto_path, 
@@ -23,7 +23,7 @@ const MedicoModel = {
     return rows;
   },
 
-  // Obtener médico por ID
+  //*Obtener médico por ID
   findById: async (id) => {
     const [rows] = await pool.query(
       `
@@ -38,7 +38,7 @@ const MedicoModel = {
     return rows[0];
   },
 
-  // Crear nuevo médico
+  //*Crear nuevo médico
   create: async (
     id_usuario,
     id_especialidad,
@@ -61,7 +61,7 @@ const MedicoModel = {
     return result.insertId;
   },
 
-  // Actualizar médico
+  //*Actualizar médico
   update: async (
     id,
     id_especialidad,
@@ -78,9 +78,9 @@ const MedicoModel = {
     return result.affectedRows;
   },
 
-  // Soft delete (usamos el activo del usuario asociado)
+  //*Soft delete (usamos el activo del usuario asociado)
   softDelete: async (id) => {
-    // Desactivamos el usuario asociado al médico
+    //*Desactivamos el usuario asociado al médico
     const [result] = await pool.query(
       `
             UPDATE usuarios u
@@ -92,7 +92,7 @@ const MedicoModel = {
     return result.affectedRows;
   },
 
-  // Buscar por matrícula
+  //*Buscar por matrícula
   findByMatricula: async (matricula) => {
     const [rows] = await pool.query(
       "SELECT * FROM medicos WHERE matricula = ?",

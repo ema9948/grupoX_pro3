@@ -1,4 +1,4 @@
-// src/controllers/turno.controller.js
+//*src/controllers/turno.controller.js
 import TurnoModel from "../models/turno.model.js";
 import PacienteModel from "../models/paciente.model.js";
 import generateTurnosPDF from "../services/pdf.service.js";
@@ -10,8 +10,8 @@ const TurnoController = {
       const { id_medico, fecha_hora } = req.body;
       let { id_paciente } = req.body;
 
-      // Si es paciente (rol 2) el id_paciente se saca automáticamente del token
-      // Si es admin (rol 3) el id_paciente debe venir en el body
+      //*Si es paciente (rol 2) el id_paciente se saca automáticamente del token
+      //*Si es admin (rol 3) el id_paciente debe venir en el body
       if (req.usuario.rol === 2) {
         const [pacienteRows] = await pool.query(
           "SELECT id_paciente FROM pacientes WHERE id_usuario = ?",
@@ -25,7 +25,7 @@ const TurnoController = {
         id_paciente = pacienteRows[0].id_paciente;
       }
 
-      // Si es admin y no mandó id_paciente
+      //*Si es admin y no mandó id_paciente
       if (!id_paciente) {
         return res.status(400).json({
           message: "El id_paciente es requerido para el administrador",
@@ -57,10 +57,17 @@ const TurnoController = {
       let turnos;
 
       if (usuario.rol === 1) {
-        // Médico
-        turnos = await TurnoModel.findByMedico(usuario.id);
+        //*Médico - buscar su id_medico
+        const [medicoRows] = await pool.query(
+          "SELECT id_medico FROM medicos WHERE id_usuario = ?",
+          [usuario.id],
+        );
+        if (medicoRows.length === 0) {
+          return res.status(404).json({ message: "Médico no encontrado" });
+        }
+        turnos = await TurnoModel.findByMedico(medicoRows[0].id_medico);
       } else if (usuario.rol === 2) {
-        // Paciente
+        //*Paciente
         const [pacienteRows] = await pool.query(
           "SELECT id_paciente FROM pacientes WHERE id_usuario = ?",
           [usuario.id],
@@ -74,7 +81,7 @@ const TurnoController = {
 
         turnos = await TurnoModel.findByPaciente(pacienteRows[0].id_paciente);
       } else if (usuario.rol === 3) {
-        // Admin
+        //*Admin
         turnos = await TurnoModel.findAll();
       }
 
@@ -85,12 +92,12 @@ const TurnoController = {
     }
   },
 
-  // Marcar turno como atendido (solo el médico que lo tiene)
+  //*Marcar turno como atendido (solo el médico que lo tiene)
   marcarAtendido: async (req, res) => {
     try {
-      const usuario = req.usuario; // id_usuario
+      const usuario = req.usuario; //*id_usuario
 
-      // Obtener el id_medico del usuario logueado
+      //*Obtener el id_medico del usuario logueado
       const [medicoRows] = await pool.query(
         "SELECT id_medico FROM medicos WHERE id_usuario = ?",
         [usuario.id],
@@ -104,7 +111,7 @@ const TurnoController = {
 
       const id_medico_logueado = medicoRows[0].id_medico;
 
-      // Verificar que el turno pertenezca al médico logueado
+      //*Verificar que el turno pertenezca al médico logueado
       const [turno] = await pool.query(
         "SELECT id_medico FROM turnos_reservas WHERE id_turno_reserva = ? AND activo = 1",
         [req.params.id],
@@ -136,47 +143,70 @@ const TurnoController = {
     }
   },
 
-  // Obtener estadísticas (Solo Admin)
+  //*Obtener estadísticas (Solo Admin)
   getEstadisticas: async (req, res) => {
     try {
-      const estadisticas = await TurnoModel.getEstadisticas();
+      const resultados = await TurnoModel.getEstadisticas(); // resultados[0] y [1]
+
       res.status(200).json({
         message: "Estadísticas obtenidas correctamente",
-        data: estadisticas[0],
+        estadisticas: {
+          generales: resultados[0]?.[0] || {}, // primer conjunto, primer registro
+          por_especialidad: resultados[1] || [], // segundo conjunto
+        },
       });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error al obtener estadísticas" });
     }
   },
-  // Generar informe PDF (Solo Admin)
+  //*Generar informe PDF (Solo Admin)
   generarInformePDF: async (req, res) => {
     try {
       const estadisticasData = await TurnoModel.getEstadisticas();
       const turnos = await TurnoModel.findAll();
 
-      const estadisticas = estadisticasData[0] || {};
+      // estadisticasData[0] = generales, estadisticasData[1] = por_especialidad
+      const estadisticas = {
+        generales: estadisticasData[0]?.[0] || {},
+        por_especialidad: estadisticasData[1] || [],
+      };
 
       const pdfBuffer = await generateTurnosPDF(estadisticas, turnos);
 
-      // Configuración de headers
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader(
         "Content-Disposition",
         `attachment; filename=informe_turnos_${new Date().toISOString().slice(0, 10)}.pdf`,
       );
-      res.setHeader("Content-Length", pdfBuffer.length);
-
-      // Enviar el buffer y terminar la respuesta
       res.end(pdfBuffer);
     } catch (error) {
-      console.error("Error generando PDF:", error);
-      if (!res.headersSent) {
-        res.status(500).json({
-          message: "Error al generar el informe PDF",
-          error: error.message,
+      console.error(error);
+      res.status(500).json({ message: "Error al generar PDF" });
+    }
+  },
+  //* Cancelar turno (soft delete)
+  cancelarTurno: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const usuario = req.usuario;
+
+      const affectedRows = await TurnoModel.cancelar(
+        id,
+        usuario.id,
+        usuario.rol,
+      );
+
+      if (affectedRows === 0) {
+        return res.status(404).json({
+          message: "Turno no encontrado o no tienes permiso para cancelarlo",
         });
       }
+
+      res.status(200).json({ message: "Turno cancelado correctamente" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error interno del servidor" });
     }
   },
 };

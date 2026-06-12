@@ -112,59 +112,62 @@ La base de datos, tablas, stored procedures y datos de prueba se crean **automá
 
 ### 🔓 Auth — Público
 
-| Método | Ruta              | Descripción          |
-| ------ | ----------------- | -------------------- |
-| POST   | `/api/auth/login` | Iniciar sesión       |
-| PUT    | `/api/auth/foto`  | Subir foto de perfil |
+| Método | Ruta                 | Descripción          |
+| ------ | -------------------- | -------------------- |
+| POST   | `/api/v1/auth/login` | Iniciar sesión       |
+| PUT    | `/api/v1/auth/foto`  | Subir foto de perfil |
 
 ### 🏥 Especialidades
 
-| Método | Ruta                      | Descripción  | Roles |
-| ------ | ------------------------- | ------------ | ----- |
-| GET    | `/api/especialidades`     | Listar todas | 2, 3  |
-| GET    | `/api/especialidades/:id` | Obtener una  | 2, 3  |
-| POST   | `/api/especialidades`     | Crear        | 3     |
-| PUT    | `/api/especialidades/:id` | Editar       | 3     |
-| DELETE | `/api/especialidades/:id` | Eliminar     | 3     |
+| Método | Ruta                         | Descripción  | Roles |
+| ------ | ---------------------------- | ------------ | ----- |
+| GET    | `/api/v1/especialidades`     | Listar todas | 2, 3  |
+| GET    | `/api/v1/especialidades/:id` | Obtener una  | 2, 3  |
+| POST   | `/api/v1/especialidades`     | Crear        | 3     |
+| PUT    | `/api/v1/especialidades/:id` | Editar       | 3     |
+| DELETE | `/api/v1/especialidades/:id` | Eliminar     | 3     |
 
 ### 🏦 Obras Sociales
 
-| Método | Ruta                      | Descripción  | Roles |
-| ------ | ------------------------- | ------------ | ----- |
-| GET    | `/api/obras-sociales`     | Listar todas | 3     |
-| GET    | `/api/obras-sociales/:id` | Obtener una  | 3     |
-| POST   | `/api/obras-sociales`     | Crear        | 3     |
-| PUT    | `/api/obras-sociales/:id` | Editar       | 3     |
-| DELETE | `/api/obras-sociales/:id` | Eliminar     | 3     |
+| Método | Ruta                         | Descripción  | Roles |
+| ------ | ---------------------------- | ------------ | ----- |
+| GET    | `/api/v1/obras-sociales`     | Listar todas | 3     |
+| GET    | `/api/v1/obras-sociales/:id` | Obtener una  | 3     |
+| POST   | `/api/v1/obras-sociales`     | Crear        | 3     |
+| PUT    | `/api/v1/obras-sociales/:id` | Editar       | 3     |
+| DELETE | `/api/v1/obras-sociales/:id` | Eliminar     | 3     |
 
 ### 👨‍⚕️ Médicos
 
-| Método | Ruta               | Descripción  | Roles |
-| ------ | ------------------ | ------------ | ----- |
-| GET    | `/api/medicos`     | Listar todos | 2, 3  |
-| GET    | `/api/medicos/:id` | Obtener uno  | 2, 3  |
-| POST   | `/api/medicos`     | Crear        | 3     |
-| PUT    | `/api/medicos/:id` | Editar       | 3     |
-| DELETE | `/api/medicos/:id` | Eliminar     | 3     |
+| Método | Ruta                  | Descripción  | Roles |
+| ------ | --------------------- | ------------ | ----- |
+| GET    | `/api/v1/medicos`     | Listar todos | 2, 3  |
+| GET    | `/api/v1/medicos/:id` | Obtener uno  | 2, 3  |
+| POST   | `/api/v1/medicos`     | Crear        | 3     |
+| PUT    | `/api/v1/medicos/:id` | Editar       | 3     |
+| DELETE | `/api/v1/medicos/:id` | Eliminar     | 3     |
 
 ### 🧑‍🤝‍🧑 Pacientes
 
-| Método | Ruta                 | Descripción  | Roles |
-| ------ | -------------------- | ------------ | ----- |
-| GET    | `/api/pacientes`     | Listar todos | 3     |
-| GET    | `/api/pacientes/:id` | Obtener uno  | 3     |
-| POST   | `/api/pacientes`     | Crear        | 3     |
-| PUT    | `/api/pacientes/:id` | Editar       | 3     |
-| DELETE | `/api/pacientes/:id` | Eliminar     | 3     |
+| Método | Ruta                    | Descripción  | Roles |
+| ------ | ----------------------- | ------------ | ----- |
+| GET    | `/api/v1/pacientes`     | Listar todos | 3     |
+| GET    | `/api/v1/pacientes/:id` | Obtener uno  | 3     |
+| POST   | `/api/v1/pacientes`     | Crear        | 3     |
+| PUT    | `/api/v1/pacientes/:id` | Editar       | 3     |
+| DELETE | `/api/v1/pacientes/:id` | Eliminar     | 3     |
 
 ### 📅 Turnos
 
-| Método | Ruta                      | Descripción        | Roles   |
-| ------ | ------------------------- | ------------------ | ------- |
-| POST   | `/api/turnos`             | Crear turno        | 2, 3    |
-| GET    | `/api/turnos/mis-turnos`  | Ver turnos propios | 1, 2, 3 |
-| PUT    | `/api/turnos/:id/atender` | Marcar atendido    | 1       |
-| GET    | `/api/turnos/informe-pdf` | Generar PDF        | 3       |
+| Método | Ruta                          | Descripción           | Roles   |
+| ------ | ----------------------------- | --------------------- | ------- |
+| POST   | `/api/v1/turnos`              | Crear turno           | 2, 3    |
+| GET    | `/api/v1/turnos/mis-turnos`   | Ver turnos propios    | 1, 2, 3 |
+| PUT    | `/api/v1/turnos/:id/atender`  | Marcar atendido       | 1       |
+| GET    | `/api/v1/turnos/informe-pdf`  | Generar PDF           | 3       |
+| GET    | `/api/v1/turnos/estadisticas` | Estadísticas en JSON  | 3       |
+| GET    | `/api/v1/turnos/informe-pdf`  | Descargar informe PDF | 3       |
+| DELETE | `/api/v1/turnos/:id/cancelar` | Cancelar turno        | 1,2,3   |
 
 ---
 

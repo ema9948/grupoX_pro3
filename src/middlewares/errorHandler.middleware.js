@@ -1,4 +1,4 @@
-// src/middlewares/errorHandler.middleware.js
+//*src/middlewares/errorHandler.middleware.js
 const errorHandler = (err, req, res, next) => {
     console.error('Error no controlado:', err);
 

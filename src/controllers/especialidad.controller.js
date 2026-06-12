@@ -1,7 +1,7 @@
 import EspecialidadModel from "../models/especialidad.model.js";
 
 const EspecialidadController = {
-  // GET /api/especialidades
+  //*GET /api/especialidades
   getAll: async (req, res) => {
     try {
       const especialidades = await EspecialidadModel.findAll();
@@ -12,7 +12,7 @@ const EspecialidadController = {
     }
   },
 
-  // GET /api/especialidades/:id
+  //*GET /api/especialidades/:id
   getById: async (req, res) => {
     try {
       const especialidad = await EspecialidadModel.findById(req.params.id);
@@ -26,7 +26,7 @@ const EspecialidadController = {
     }
   },
 
-  // POST /api/especialidades
+  //*POST /api/especialidades
   create: async (req, res) => {
     try {
       let { nombre } = req.body;
@@ -55,7 +55,7 @@ const EspecialidadController = {
     } catch (error) {
       console.error(error);
 
-      // fallback por si hay race condition
+      //*fallback por si hay race condition
       if (error.code === "ER_DUP_ENTRY") {
         return res.status(400).json({
           message: "La especialidad ya existe",
@@ -66,7 +66,7 @@ const EspecialidadController = {
     }
   },
 
-  // PUT /api/especialidades/:id
+  //*PUT /api/especialidades/:id
   update: async (req, res) => {
     try {
       const { nombre } = req.body;
@@ -86,7 +86,7 @@ const EspecialidadController = {
     }
   },
 
-  // DELETE /api/especialidades/:id
+  //*DELETE /api/especialidades/:id
   remove: async (req, res) => {
     try {
       const affectedRows = await EspecialidadModel.softDelete(req.params.id);
@@ -102,6 +102,3 @@ const EspecialidadController = {
 };
 
 export default EspecialidadController;
-
-
-

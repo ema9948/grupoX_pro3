@@ -12,6 +12,3 @@ const especialidadValidator = [
 ];
 
 export { especialidadValidator };
-
-
-

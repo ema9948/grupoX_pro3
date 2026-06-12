@@ -1,4 +1,4 @@
-// src/controllers/paciente.controller.js
+//*src/controllers/paciente.controller.js
 import PacienteModel from '../models/paciente.model.js';
 import UsuarioModel from '../models/usuario.model.js';
 
@@ -39,7 +39,7 @@ const PacienteController = {
                 return res.status(400).json({ message: "El usuario debe tener rol de paciente (rol = 2)" });
             }
 
-            // Verificamos si el usuario ya es paciente
+            //*Verificamos si el usuario ya es paciente
             const pacienteExistente = await PacienteModel.findByUsuario(id_usuario);
             if (pacienteExistente) {
                 return res.status(400).json({ message: "Este usuario ya está registrado como paciente" });
@@ -88,4 +88,3 @@ const PacienteController = {
 };
 
 export default PacienteController;
-

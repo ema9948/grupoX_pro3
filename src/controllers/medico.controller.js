@@ -1,6 +1,7 @@
-// src/controllers/medico.controller.js
+//*src/controllers/medico.controller.js
 import MedicoModel from "../models/medico.model.js";
 import UsuarioModel from "../models/usuario.model.js";
+import pool from "../config/db.js";
 
 const MedicoController = {
   getAll: async (req, res) => {
@@ -37,7 +38,7 @@ const MedicoController = {
         valor_consulta,
       } = req.body;
 
-      // Solo verificamos que el usuario exista y tenga rol 1
+      //*Solo verificamos que el usuario exista y tenga rol 1
       const usuario = await UsuarioModel.findById(id_usuario);
       if (!usuario) {
         return res.status(404).json({ message: "Usuario no encontrado" });
@@ -48,7 +49,7 @@ const MedicoController = {
           .json({ message: "El usuario debe tener rol de médico (rol = 1)" });
       }
 
-      // Verificamos solo que la matrícula no esté repetida
+      //*Verificamos solo que la matrícula no esté repetida
       const matriculaExistente = await MedicoModel.findByMatricula(matricula);
       if (matriculaExistente) {
         return res
@@ -78,9 +79,21 @@ const MedicoController = {
     try {
       const { id_especialidad, matricula, descripcion, valor_consulta } =
         req.body;
+      const id = req.params.id;
+
+      // Verificar que la matrícula no pertenezca a otro médico
+      const [existe] = await pool.query(
+        "SELECT id_medico FROM medicos WHERE matricula = ? AND id_medico != ?",
+        [matricula, id],
+      );
+      if (existe.length > 0) {
+        return res
+          .status(400)
+          .json({ message: "Ya existe otro médico con esa matrícula" });
+      }
 
       const affectedRows = await MedicoModel.update(
-        req.params.id,
+        id,
         id_especialidad,
         matricula,
         descripcion,

@@ -4,22 +4,22 @@ import UsuarioModel from '../models/usuario.model.js';
 
 const AuthController = {
 
-    // POST /api/auth/login
+    //*POST /api/auth/login
     login: async (req, res) => {
         try {
             const { email, password } = req.body;
 
-            // Busca el usuario verificando email + password con SHA2 en una sola query
-            // Si no existe o la contraseña es incorrecta devuelve undefined
+            //*Busca el usuario verificando email + password con SHA2 en una sola query
+            //*Si no existe o la contraseña es incorrecta devuelve undefined
             const usuario = await UsuarioModel.findByEmailAndPassword(email, password);
 
-            // Respuesta genérica para no dar pistas de si el email existe o no
+            //*Respuesta genérica para no dar pistas de si el email existe o no
             if (!usuario) {
                 return res.status(401).json({ message: 'Credenciales inválidas' });
             }
 
-            // Genera el JWT con datos básicos del usuario
-            // No incluir datos sensibles en el payload, es decodificable
+            //*Genera el JWT con datos básicos del usuario
+            //*No incluir datos sensibles en el payload, es decodificable
             const token = jwt.sign(
                 {
                     id: usuario.id_usuario,
@@ -40,7 +40,7 @@ const AuthController = {
             res.status(500).json({ message: 'Error interno del servidor' });
         }
     },
-    // PUT /api/auth/foto
+    //*PUT /api/auth/foto
     subirFoto: async (req, res) => {
     try {
         if (!req.file) {

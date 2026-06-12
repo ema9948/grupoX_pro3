@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-// Para crear: todos los campos requeridos incluyendo id_usuario
+//*Para crear: todos los campos requeridos incluyendo id_usuario
 const medicoCreateValidator = [
   body("id_usuario")
     .notEmpty()
@@ -37,7 +37,7 @@ const medicoCreateValidator = [
     .withMessage("El valor debe ser mayor a 0"),
 ];
 
-// Para actualizar: no se puede cambiar el usuario
+//*Para actualizar: no se puede cambiar el usuario
 const medicoUpdateValidator = [
   body("id_especialidad")
     .notEmpty()

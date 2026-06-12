@@ -22,10 +22,10 @@ const obraSocialValidator = [
   body("porcentaje_descuento")
     .notEmpty()
     .withMessage("El porcentaje de descuento es requerido")
-    .isDecimal({ decimal_digits: "0,2" })
-    .withMessage("El porcentaje debe ser un número decimal")
-    .custom((val) => val >= 0 && val <= 100)
-    .withMessage("El porcentaje debe estar entre 0 y 100"),
+    .isDecimal({ decimal_digits: "0,4" })
+    .withMessage("El porcentaje debe ser un número decimal (ej: 0.10 para 10%)")
+    .custom((val) => val >= 0 && val <= 1)
+    .withMessage("El porcentaje debe estar entre 0 y 1 (ej: 0.10 = 10%)"),
 
   body("es_particular")
     .notEmpty()
@@ -35,5 +35,3 @@ const obraSocialValidator = [
 ];
 
 export { obraSocialValidator };
-
-

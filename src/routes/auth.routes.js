@@ -7,7 +7,7 @@ const router = Router();
 
 /**
  * @swagger
- * /api/auth/login:
+ * /api/v1/auth/login:
  *   post:
  *     summary: Iniciar sesión
  *     tags: [Auth]
@@ -38,7 +38,7 @@ router.post('/login', AuthController.login);
 
 /**
  * @swagger
- * /api/auth/foto:
+ * /api/v1/auth/foto:
  *   put:
  *     summary: Subir foto de perfil
  *     tags: [Auth]
