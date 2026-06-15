@@ -24,3 +24,7 @@ Thumbs.db
 # Reportes o archivos generados
 *.pdf
 temp/
+
+node_modules/
+.env
+uploads/
